@@ -46,8 +46,8 @@ def run():
 
             # ATTEMPTING THE QUIZ
             for i in range(total_itr):
-                attempt_quiz(page)
-
+                qNum_clean = start_quiz(page)
+                attempt_quiz(page, qNum_clean)
 
             # RESTART LOOP
             user_input = input("Type STOP to stop program, ENTER to continue: ").lower()
@@ -82,10 +82,10 @@ def start_quiz(page):
 
     expect(page.get_by_role("button", name=f"Luyện tất cả ({qNum})")).to_be_visible(timeout=15000)
     page.get_by_role("button", name=f"Luyện tất cả ({qNum_clean})").click() # starting the quiz
+    return qNum_clean
 
 
-def attempt_quiz(page):
-    start_quiz(page)
+def attempt_quiz(page, qNum_clean):
     for i in range(qNum_clean):
         page.wait_for_timeout(500) # account question delay
         options = page.locator(".mc-text-question__radio-answer input[type='radio']") # fetch all input options available on page
